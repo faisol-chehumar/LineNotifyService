@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  node-express:
+    build: .
+    image: docker-line-notify:dev
+    container_name: line-notify-server
+    command: npm start
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app/src
