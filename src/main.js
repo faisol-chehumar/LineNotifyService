@@ -1,26 +1,23 @@
 const server = require('express')
-const request = require('request')
 const bodyParser = require('body-parser')
+const request = require('request');
 
-const PORT = process.env.PORT || 3000
+const { PORT, TOKEN } = require('../config')
 
-const router = server.Router()
-
-router.post('/', (req, res, next) => {
-  const token = req.body.token
-  const msg = req.body.msq
+const postHandler = (req, res, next) => {
+  const { message } = req.body
 
   request({
     method: 'POST',
     uri: 'https://notify-api.line.me/api/notify',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     },
     auth: {
-      'bearer': token
+      'bearer': TOKEN
     },
     form: {
-      msg
+      message
     }
   }, (err, httpResponse, body) => {
     if(err) {
@@ -32,10 +29,11 @@ router.post('/', (req, res, next) => {
       })
     }
   })
-})
+}
 
 server()
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false}))
-  .get('/', (req, res) => res.send(`Hi there! This is a nodejs-line-api running on PORT: ${ PORT }`))
+  .get('/', (req, res) => res.send(`Hi Mims there! This is a nodejs-line-api xx running on PORT: ${ PORT }`))
+  .post('/', postHandler)
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
