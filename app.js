@@ -2,7 +2,7 @@ const server = require('express')
 const bodyParser = require('body-parser')
 const request = require('request');
 
-const { PORT, TOKEN } = require('../config')
+const { PORT, TOKEN } = require('./config')
 
 const postHandler = (req, res, next) => {
   const { message } = req.body
